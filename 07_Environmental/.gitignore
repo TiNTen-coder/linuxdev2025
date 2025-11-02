@@ -1,0 +1,36 @@
+# Autotools generated files
+/aclocal.m4
+/autom4te.cache/
+/compile
+/config.guess
+/config.h
+/config.h.in
+/config.log
+/config.status
+/config.sub
+/configure
+/depcomp
+/install-sh
+/missing
+/stamp-h1
+Makefile
+Makefile.in
+.deps/
+.dirstamp
+
+# Build artifacts
+*.o
+*.lo
+*.la
+.libs/
+/src/rhashrc
+rhashrc
+
+# Test files
+test.txt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*~
