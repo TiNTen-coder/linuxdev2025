@@ -1,0 +1,44 @@
+--- main.c	2025-11-22 20:43:56
++++ main1.c	2025-11-22 20:43:46
+@@ -1,11 +1,12 @@
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <err.h>
++#include <limits.h>
++#include <errno.h>
+ 
+ typedef enum wall_type {None = 0, Room, DWall, IWall, Empty} tile;
+ char sym_vis[] = {'-', '.', '#', '#', '.'};
+ 
+-#define NUM_ROOMS 6
+-
+ tile** init_lab(int num_rooms) {
+     int i, j, lab_size = num_rooms * 2 + 1;
+     tile **lab = malloc(lab_size * sizeof(tile*));
+@@ -96,10 +97,21 @@
+     free(lab);
+ }
+ 
+-int main() {
+-    tile **lab = init_lab(NUM_ROOMS);
+-    generate_lab(lab, NUM_ROOMS);
+-    print_lab(lab, NUM_ROOMS);
+-    deinit_lab(lab, NUM_ROOMS);
++int main(int argc, char *argv[]) {
++    if (argc != 2){
++        errx(-1, "Неверное число параметров - %d, требуется 1", argc - 1);
++    }
++    char *c;
++    int num_rooms;
++    long num = strtol(argv[1], &c, 10);
++    if (errno != 0 || *c != '\0' || num > INT_MAX || num < INT_MIN) {
++        errx(-1, "Первый аргумент не число");
++    }
++    num_rooms = num;
++
++    tile **lab = init_lab(num_rooms);
++    generate_lab(lab, num_rooms);
++    print_lab(lab, num_rooms);
++    deinit_lab(lab, num_rooms);
+     return 0;
+ }

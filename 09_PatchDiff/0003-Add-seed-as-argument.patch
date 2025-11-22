@@ -1,0 +1,48 @@
+--- main2.c	2025-11-22 20:52:36
++++ main3.c	2025-11-22 20:56:25
+@@ -99,27 +99,35 @@
+ }
+ 
+ int main(int argc, char *argv[]) {
+-    if (argc != 3){
+-        errx(-1, "Неверное число параметров - %d, требуется 2", argc - 1);
++    if (argc != 4){
++        errx(-1, "Неверное число параметров - %d, требуется 3", argc - 1);
+     }
+     char *c;
+     int num_rooms;
++    unsigned int seed;
+     long num;
+ 
+-    if (strlen(argv[1]) != 2){
+-        errx(-1, "Неверное количество символов первого аргумента - %ld, требуется 2", strlen(argv[2]));
++    num = strtol(argv[1], &c, 10);
++    if (errno != 0 || *c != '\0' || num > UINT_MAX || num < 0) {
++        errx(-1, "Первый аргумент не uint");
+     }
+-    sym_vis[1] = argv[1][0];
+-    sym_vis[4] = argv[1][0];
+-    sym_vis[2] = argv[1][1];
+-    sym_vis[3] = argv[1][1];
++    seed = num;
++
++    if (strlen(argv[2]) != 2){
++        errx(-1, "Неверное количество символов второго аргумента - %ld, требуется 2", strlen(argv[2]));
++    }
++    sym_vis[1] = argv[2][0];
++    sym_vis[4] = argv[2][0];
++    sym_vis[2] = argv[2][1];
++    sym_vis[3] = argv[2][1];
+     
+-    num = strtol(argv[2], &c, 10);
++    num = strtol(argv[3], &c, 10);
+     if (errno != 0 || *c != '\0' || num > INT_MAX || num < INT_MIN) {
+-        errx(-1, "Второй аргумент не число");
++        errx(-1, "Третий аргумент не число");
+     }
+     num_rooms = num;
+ 
++    srand(seed);
+     tile **lab = init_lab(num_rooms);
+     generate_lab(lab, num_rooms);
+     print_lab(lab, num_rooms);
